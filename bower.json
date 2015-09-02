@@ -1,0 +1,20 @@
+{
+  "name": "firebase-chat",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "firebase": "~2.2.9",
+    "jquery": "~2.1.4",
+    "Materialize": "materialize#~0.97.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js",
+        "dist/fonts/*"
+      ]
+    }
+  }
+}
