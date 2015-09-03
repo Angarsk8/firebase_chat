@@ -24,13 +24,24 @@ $(document).ready(function () {
     //Firebase Login - Password Provider
     var ref = new Firebase("https://angarsertruchat.firebaseio.com");
 
-    $('.form-signin').validate();
-
-    $("#login").on("click", function (e) {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        !isAuth() ? logIn(username, password) : console.log("You are already authenticated");;
-        e.preventDefault();
+    $("#form-signin").validator({
+        delay: 250,
+        disable: false,
+        feedback: {
+            success: 'glyphicon-ok',
+            error: 'glyphicon-remove'
+        }
+    }).on("submit", function (e) {
+        if (e.isDefaultPrevented()) {
+            console.log("Not working!!");
+        } else {
+            console.log("Hello!");
+            var username = $("#email").val();
+            var password = $("#password").val();
+            console.log(username, password);
+            !isAuth() ? logIn(username, password) : console.log("You are already authenticated");
+            e.preventDefault();
+        }
     });
 
     //manejar cuando los campos estén vacios
