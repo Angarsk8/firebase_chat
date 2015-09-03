@@ -5,6 +5,7 @@
     "bootstrap": "~3.3.5",
     "firebase": "~2.2.9",
     "jquery": "~2.1.4",
+    "jquery-validation": "~1.14.0",
     "tweenlite": "~1.11.5"
   },
   "overrides": {

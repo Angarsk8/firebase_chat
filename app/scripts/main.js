@@ -24,12 +24,16 @@ $(document).ready(function () {
     //Firebase Login - Password Provider
     var ref = new Firebase("https://angarsertruchat.firebaseio.com");
 
+    $('.form-signin').validate();
+
     $("#login").on("click", function (e) {
         var username = $("#username").val();
         var password = $("#password").val();
-        logIn(username, password);
+        !isAuth() ? logIn(username, password) : console.log("You are already authenticated");;
         e.preventDefault();
     });
+
+    //manejar cuando los campos estén vacios
 
     function logIn(username, password) {
         ref.authWithPassword({
@@ -37,7 +41,13 @@ $(document).ready(function () {
             password: password
         }, function (error, authData) {
             if (error) {
-                createUser(username, password);
+                if (error.code === "INVALID_USER") { //The specified user account does not exist.
+                    createUser(username, password);
+                } else if (error.code === "INVALID_EMAIL") { //The specified email is not a valid email.
+                    console.log(error.code.toLowerCase());
+                } else if (error.code === "INVALID_PASSWORD") { //The specified user account password is incorrect
+                    console.log(error.code.toLowerCase());
+                }
             } else {
                 console.log("Authenticated successfully with payload:", authData);
             }
@@ -50,7 +60,7 @@ $(document).ready(function () {
             password: password
         }, function (error, userData) {
             if (error) {
-                console.log("An error has ocurred", error.message);
+                console.log("An error has ocurred", error.code);
             } else {
                 logIn(username, password);
                 console.log(userData);
@@ -58,6 +68,13 @@ $(document).ready(function () {
         });
     }
 
+    function isAuth() {
+        var isAuth;
+        ref.onAuth(function (authData) {
+            isAuth = authData ? true : false;
+        });
+        return isAuth;
+    }
     // Create a callback which logs the current auth state
     //function authDataCallback(authData) {
     //    if (authData) {
